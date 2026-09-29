@@ -4,8 +4,18 @@ kanatrain
 A mistake-driven hiragana and katakana trainer for the terminal.
 Written in Rust, standard library only.
 
-Build and run
--------------
+Install
+-------
+
+  cargo install kanatrain
+  kanatrain
+
+Make sure ~/.cargo/bin is in your PATH. To update later:
+
+  cargo install kanatrain --force
+
+Build and run from source
+-------------------------
 
   cargo run --release
 
