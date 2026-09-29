@@ -1,5 +1,5 @@
-kana-trainer
-============
+kanatrain
+=========
 
 A mistake-driven hiragana and katakana trainer for the terminal.
 Written in Rust, standard library only.
@@ -12,7 +12,7 @@ Build and run
 or
 
   cargo build --release
-  ./target/release/kana-trainer
+  ./target/release/kanatrain
 
 Options
 -------
@@ -58,8 +58,8 @@ How it teaches
 Files
 -----
 
-  Stats are stored in $XDG_DATA_HOME/kana-trainer/stats.tsv
-  (default ~/.local/share/kana-trainer/stats.tsv).
+  Stats are stored in $XDG_DATA_HOME/kanatrain/stats.tsv
+  (default ~/.local/share/kanatrain/stats.tsv).
 
 Not covered
 -----------

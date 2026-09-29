@@ -1,8 +1,13 @@
 [package]
-name = "kana-trainer"
+name = "kanatrain"
 version = "0.1.0"
 edition = "2021"
-description = "Mistake-driven hiragana & katakana trainer for the terminal"
+description = "Mistake-driven hiragana and katakana trainer for the terminal"
+license = "GPL-2.0-only"
+repository = "https://github.com/varun-r-mallya/kana-trainer"
+readme = "README"
+keywords = ["hiragana", "katakana", "japanese", "kana", "cli"]
+categories = ["command-line-utilities", "education"]
 
 [dependencies]
 

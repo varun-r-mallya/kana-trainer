@@ -1,4 +1,4 @@
-//! kana-trainer: a mistake-driven hiragana / katakana trainer for the terminal.
+//! kanatrain: a mistake-driven hiragana / katakana trainer for the terminal.
 //!
 //! Learning loop:
 //!   * cards you miss get heavier weights and are drawn more often (persisted between runs)
@@ -163,7 +163,7 @@ fn stats_path() -> Option<PathBuf> {
     let base = std::env::var_os("XDG_DATA_HOME")
         .map(PathBuf::from)
         .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".local/share")))?;
-    Some(base.join("kana-trainer").join("stats.tsv"))
+    Some(base.join("kanatrain").join("stats.tsv"))
 }
 
 fn load_stats() -> HashMap<String, Stat> {
@@ -640,7 +640,7 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
 fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
     if args.iter().any(|a| a == "-h" || a == "--help") {
-        println!("kana-trainer — mistake-driven hiragana/katakana practice\n\n  --reset     forget saved statistics\n  --no-color  disable colours (NO_COLOR is also honoured)");
+        println!("kanatrain — mistake-driven hiragana/katakana practice\n\n  --reset     forget saved statistics\n  --no-color  disable colours (NO_COLOR is also honoured)");
         return;
     }
     if std::env::var_os("NO_COLOR").is_some() || args.iter().any(|a| a == "--no-color") {
