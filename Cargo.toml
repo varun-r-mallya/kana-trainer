@@ -1,0 +1,10 @@
+[package]
+name = "kana-trainer"
+version = "0.1.0"
+edition = "2021"
+description = "Mistake-driven hiragana & katakana trainer for the terminal"
+
+[dependencies]
+
+[profile.release]
+opt-level = 2

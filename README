@@ -1,0 +1,67 @@
+kana-trainer
+============
+
+A mistake-driven hiragana and katakana trainer for the terminal.
+Written in Rust, standard library only.
+
+Build and run
+-------------
+
+  cargo run --release
+
+or
+
+  cargo build --release
+  ./target/release/kana-trainer
+
+Options
+-------
+
+  --reset      forget saved statistics
+  --no-color   disable colors (NO_COLOR is also honoured)
+  -h, --help   show usage
+
+Modes
+-----
+
+  Script    hiragana, katakana, or both
+  Sets      1  single kana        (a ka sa ...)
+            2  voiced singles     (ga za pa ...)
+            3  combined kana      (kya shu cho ...)
+            w  weak spots only    (kana you have missed before)
+  Length    number of questions, 0 for endless
+
+Sets can be combined, e.g. "1 3".
+
+Answering
+---------
+
+Type the romaji and press Enter.
+
+  ?   show the answer (counts as a miss)
+  q   finish the session
+
+Common alternate spellings are accepted (si, tu, hu, tya, jya, di ...).
+
+How it teaches
+--------------
+
+  - Kana you miss are asked more often. Weights persist between runs.
+  - A missed kana returns a few questions later as a second chance.
+  - After a miss you must type the correct reading once to move on.
+  - Every miss prints a side-by-side comparison of what you typed and
+    the correct answer, plus look-alike kana, and for combined kana a
+    breakdown such as  ki + small ya -> kya.
+  - The end-of-session report lists each mistake and what you typed
+    instead, then your weakest kana overall.
+
+Files
+-----
+
+  Stats are stored in $XDG_DATA_HOME/kana-trainer/stats.tsv
+  (default ~/.local/share/kana-trainer/stats.tsv).
+
+Not covered
+-----------
+
+  Extended katakana (ti, fa ...), long vowels, small tsu.
