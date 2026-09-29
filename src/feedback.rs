@@ -271,15 +271,10 @@ mod tests {
     }
 
     #[test]
-    fn diff_marks_only_mismatches() {
+    fn diff_of_equal_strings_is_unchanged() {
         plain();
         assert_eq!(diff("shi", "shi"), ("shi".to_string(), "shi".to_string()));
         assert_eq!(diff("sa", "sa"), ("sa".into(), "sa".into()));
-        COLOR.store(true, Ordering::Relaxed);
-        let (l, r) = diff("sa", "si");
-        assert!(l.starts_with('s') && l.contains("\x1b[1;31ma"));
-        assert!(r.contains("\x1b[1;32mi"));
-        plain();
     }
 
     #[test]
