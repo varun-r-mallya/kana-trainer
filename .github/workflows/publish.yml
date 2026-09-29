@@ -18,6 +18,14 @@ jobs:
           v="$(cargo metadata --no-deps --format-version 1 | python3 -c 'import sys,json; print(json.load(sys.stdin)["packages"][0]["version"])')"
           [ "v$v" = "$GITHUB_REF_NAME" ] || { echo "tag $GITHUB_REF_NAME != v$v"; exit 1; }
       - run: cargo build --release --locked
+      - name: Skip if this version is already on crates.io
+        id: exists
+        run: |
+          name=kanatrain
+          v="${GITHUB_REF_NAME#v}"
+          code="$(curl -s -o /dev/null -w '%{http_code}' -A "$GITHUB_REPOSITORY" "https://crates.io/api/v1/crates/$name/$v")"
+          echo "already=$([ "$code" = 200 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
       - run: cargo publish --locked
+        if: steps.exists.outputs.already != 'true'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}

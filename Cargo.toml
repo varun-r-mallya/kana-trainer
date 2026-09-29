@@ -1,6 +1,6 @@
 [package]
 name = "kanatrain"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Mistake-driven hiragana and katakana trainer for the terminal"
 license = "GPL-2.0-only"

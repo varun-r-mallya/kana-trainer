@@ -75,3 +75,20 @@ Not covered
 -----------
 
   Extended katakana (ti, fa ...), long vowels, small tsu.
+
+Development
+-----------
+
+  src/main.rs      argument handling and the round loop
+  src/lib.rs       module list
+  src/data.rs      kana tables, cards, look-alike groups
+  src/feedback.rs  answer lookup and the comparison panel
+  src/session.rs   menu, card selection and the quiz loop
+  src/stats.rs     per-kana weights and persistence
+  src/rng.rs       xorshift generator
+  src/term.rs      colors, width and padding, prompting
+  tests/cli.rs     end-to-end tests against the real binary
+
+  cargo test
+  cargo clippy --all-targets -- -D warnings
+  cargo fmt --check
