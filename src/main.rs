@@ -20,44 +20,150 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 type Row = (&'static str, &'static str, &'static [&'static str]);
 
 const BASIC: &[Row] = &[
-    ("あ", "ア", &["a"]), ("い", "イ", &["i"]), ("う", "ウ", &["u"]), ("え", "エ", &["e"]), ("お", "オ", &["o"]),
-    ("か", "カ", &["ka"]), ("き", "キ", &["ki"]), ("く", "ク", &["ku"]), ("け", "ケ", &["ke"]), ("こ", "コ", &["ko"]),
-    ("さ", "サ", &["sa"]), ("し", "シ", &["shi", "si"]), ("す", "ス", &["su"]), ("せ", "セ", &["se"]), ("そ", "ソ", &["so"]),
-    ("た", "タ", &["ta"]), ("ち", "チ", &["chi", "ti"]), ("つ", "ツ", &["tsu", "tu"]), ("て", "テ", &["te"]), ("と", "ト", &["to"]),
-    ("な", "ナ", &["na"]), ("に", "ニ", &["ni"]), ("ぬ", "ヌ", &["nu"]), ("ね", "ネ", &["ne"]), ("の", "ノ", &["no"]),
-    ("は", "ハ", &["ha"]), ("ひ", "ヒ", &["hi"]), ("ふ", "フ", &["fu", "hu"]), ("へ", "ヘ", &["he"]), ("ほ", "ホ", &["ho"]),
-    ("ま", "マ", &["ma"]), ("み", "ミ", &["mi"]), ("む", "ム", &["mu"]), ("め", "メ", &["me"]), ("も", "モ", &["mo"]),
-    ("や", "ヤ", &["ya"]), ("ゆ", "ユ", &["yu"]), ("よ", "ヨ", &["yo"]),
-    ("ら", "ラ", &["ra"]), ("り", "リ", &["ri"]), ("る", "ル", &["ru"]), ("れ", "レ", &["re"]), ("ろ", "ロ", &["ro"]),
-    ("わ", "ワ", &["wa"]), ("を", "ヲ", &["wo", "o"]), ("ん", "ン", &["n", "nn"]),
+    ("あ", "ア", &["a"]),
+    ("い", "イ", &["i"]),
+    ("う", "ウ", &["u"]),
+    ("え", "エ", &["e"]),
+    ("お", "オ", &["o"]),
+    ("か", "カ", &["ka"]),
+    ("き", "キ", &["ki"]),
+    ("く", "ク", &["ku"]),
+    ("け", "ケ", &["ke"]),
+    ("こ", "コ", &["ko"]),
+    ("さ", "サ", &["sa"]),
+    ("し", "シ", &["shi", "si"]),
+    ("す", "ス", &["su"]),
+    ("せ", "セ", &["se"]),
+    ("そ", "ソ", &["so"]),
+    ("た", "タ", &["ta"]),
+    ("ち", "チ", &["chi", "ti"]),
+    ("つ", "ツ", &["tsu", "tu"]),
+    ("て", "テ", &["te"]),
+    ("と", "ト", &["to"]),
+    ("な", "ナ", &["na"]),
+    ("に", "ニ", &["ni"]),
+    ("ぬ", "ヌ", &["nu"]),
+    ("ね", "ネ", &["ne"]),
+    ("の", "ノ", &["no"]),
+    ("は", "ハ", &["ha"]),
+    ("ひ", "ヒ", &["hi"]),
+    ("ふ", "フ", &["fu", "hu"]),
+    ("へ", "ヘ", &["he"]),
+    ("ほ", "ホ", &["ho"]),
+    ("ま", "マ", &["ma"]),
+    ("み", "ミ", &["mi"]),
+    ("む", "ム", &["mu"]),
+    ("め", "メ", &["me"]),
+    ("も", "モ", &["mo"]),
+    ("や", "ヤ", &["ya"]),
+    ("ゆ", "ユ", &["yu"]),
+    ("よ", "ヨ", &["yo"]),
+    ("ら", "ラ", &["ra"]),
+    ("り", "リ", &["ri"]),
+    ("る", "ル", &["ru"]),
+    ("れ", "レ", &["re"]),
+    ("ろ", "ロ", &["ro"]),
+    ("わ", "ワ", &["wa"]),
+    ("を", "ヲ", &["wo", "o"]),
+    ("ん", "ン", &["n", "nn"]),
 ];
 
 const VOICED: &[Row] = &[
-    ("が", "ガ", &["ga"]), ("ぎ", "ギ", &["gi"]), ("ぐ", "グ", &["gu"]), ("げ", "ゲ", &["ge"]), ("ご", "ゴ", &["go"]),
-    ("ざ", "ザ", &["za"]), ("じ", "ジ", &["ji", "zi"]), ("ず", "ズ", &["zu"]), ("ぜ", "ゼ", &["ze"]), ("ぞ", "ゾ", &["zo"]),
-    ("だ", "ダ", &["da"]), ("ぢ", "ヂ", &["di", "ji", "zi"]), ("づ", "ヅ", &["du", "zu"]), ("で", "デ", &["de"]), ("ど", "ド", &["do"]),
-    ("ば", "バ", &["ba"]), ("び", "ビ", &["bi"]), ("ぶ", "ブ", &["bu"]), ("べ", "ベ", &["be"]), ("ぼ", "ボ", &["bo"]),
-    ("ぱ", "パ", &["pa"]), ("ぴ", "ピ", &["pi"]), ("ぷ", "プ", &["pu"]), ("ぺ", "ペ", &["pe"]), ("ぽ", "ポ", &["po"]),
+    ("が", "ガ", &["ga"]),
+    ("ぎ", "ギ", &["gi"]),
+    ("ぐ", "グ", &["gu"]),
+    ("げ", "ゲ", &["ge"]),
+    ("ご", "ゴ", &["go"]),
+    ("ざ", "ザ", &["za"]),
+    ("じ", "ジ", &["ji", "zi"]),
+    ("ず", "ズ", &["zu"]),
+    ("ぜ", "ゼ", &["ze"]),
+    ("ぞ", "ゾ", &["zo"]),
+    ("だ", "ダ", &["da"]),
+    ("ぢ", "ヂ", &["di", "ji", "zi"]),
+    ("づ", "ヅ", &["du", "zu"]),
+    ("で", "デ", &["de"]),
+    ("ど", "ド", &["do"]),
+    ("ば", "バ", &["ba"]),
+    ("び", "ビ", &["bi"]),
+    ("ぶ", "ブ", &["bu"]),
+    ("べ", "ベ", &["be"]),
+    ("ぼ", "ボ", &["bo"]),
+    ("ぱ", "パ", &["pa"]),
+    ("ぴ", "ピ", &["pi"]),
+    ("ぷ", "プ", &["pu"]),
+    ("ぺ", "ペ", &["pe"]),
+    ("ぽ", "ポ", &["po"]),
 ];
 
 const COMBO: &[Row] = &[
-    ("きゃ", "キャ", &["kya"]), ("きゅ", "キュ", &["kyu"]), ("きょ", "キョ", &["kyo"]),
-    ("しゃ", "シャ", &["sha", "sya"]), ("しゅ", "シュ", &["shu", "syu"]), ("しょ", "ショ", &["sho", "syo"]),
-    ("ちゃ", "チャ", &["cha", "tya"]), ("ちゅ", "チュ", &["chu", "tyu"]), ("ちょ", "チョ", &["cho", "tyo"]),
-    ("にゃ", "ニャ", &["nya"]), ("にゅ", "ニュ", &["nyu"]), ("にょ", "ニョ", &["nyo"]),
-    ("ひゃ", "ヒャ", &["hya"]), ("ひゅ", "ヒュ", &["hyu"]), ("ひょ", "ヒョ", &["hyo"]),
-    ("みゃ", "ミャ", &["mya"]), ("みゅ", "ミュ", &["myu"]), ("みょ", "ミョ", &["myo"]),
-    ("りゃ", "リャ", &["rya"]), ("りゅ", "リュ", &["ryu"]), ("りょ", "リョ", &["ryo"]),
-    ("ぎゃ", "ギャ", &["gya"]), ("ぎゅ", "ギュ", &["gyu"]), ("ぎょ", "ギョ", &["gyo"]),
-    ("じゃ", "ジャ", &["ja", "jya", "zya"]), ("じゅ", "ジュ", &["ju", "jyu", "zyu"]), ("じょ", "ジョ", &["jo", "jyo", "zyo"]),
-    ("びゃ", "ビャ", &["bya"]), ("びゅ", "ビュ", &["byu"]), ("びょ", "ビョ", &["byo"]),
-    ("ぴゃ", "ピャ", &["pya"]), ("ぴゅ", "ピュ", &["pyu"]), ("ぴょ", "ピョ", &["pyo"]),
+    ("きゃ", "キャ", &["kya"]),
+    ("きゅ", "キュ", &["kyu"]),
+    ("きょ", "キョ", &["kyo"]),
+    ("しゃ", "シャ", &["sha", "sya"]),
+    ("しゅ", "シュ", &["shu", "syu"]),
+    ("しょ", "ショ", &["sho", "syo"]),
+    ("ちゃ", "チャ", &["cha", "tya"]),
+    ("ちゅ", "チュ", &["chu", "tyu"]),
+    ("ちょ", "チョ", &["cho", "tyo"]),
+    ("にゃ", "ニャ", &["nya"]),
+    ("にゅ", "ニュ", &["nyu"]),
+    ("にょ", "ニョ", &["nyo"]),
+    ("ひゃ", "ヒャ", &["hya"]),
+    ("ひゅ", "ヒュ", &["hyu"]),
+    ("ひょ", "ヒョ", &["hyo"]),
+    ("みゃ", "ミャ", &["mya"]),
+    ("みゅ", "ミュ", &["myu"]),
+    ("みょ", "ミョ", &["myo"]),
+    ("りゃ", "リャ", &["rya"]),
+    ("りゅ", "リュ", &["ryu"]),
+    ("りょ", "リョ", &["ryo"]),
+    ("ぎゃ", "ギャ", &["gya"]),
+    ("ぎゅ", "ギュ", &["gyu"]),
+    ("ぎょ", "ギョ", &["gyo"]),
+    ("じゃ", "ジャ", &["ja", "jya", "zya"]),
+    ("じゅ", "ジュ", &["ju", "jyu", "zyu"]),
+    ("じょ", "ジョ", &["jo", "jyo", "zyo"]),
+    ("びゃ", "ビャ", &["bya"]),
+    ("びゅ", "ビュ", &["byu"]),
+    ("びょ", "ビョ", &["byo"]),
+    ("ぴゃ", "ピャ", &["pya"]),
+    ("ぴゅ", "ピュ", &["pyu"]),
+    ("ぴょ", "ピョ", &["pyo"]),
 ];
 
 /// Groups of kana that are commonly mistaken for one another.
 const LOOKALIKES: &[&str] = &[
-    "さきち", "ぬめ", "ねれわ", "はほ", "るろ", "いり", "こに", "あお", "すむ", "たな", "けは", "まも", "ぱば", "じぢ", "ずづ",
-    "シツ", "ソン", "クケタ", "ウワフ", "コユ", "チテ", "ヌス", "マム", "ノメ", "アマ", "ミツ", "ナメ", "パバ", "ジヂ", "ズヅ",
+    "さきち",
+    "ぬめ",
+    "ねれわ",
+    "はほ",
+    "るろ",
+    "いり",
+    "こに",
+    "あお",
+    "すむ",
+    "たな",
+    "けは",
+    "まも",
+    "ぱば",
+    "じぢ",
+    "ずづ",
+    "シツ",
+    "ソン",
+    "クケタ",
+    "ウワフ",
+    "コユ",
+    "チテ",
+    "ヌス",
+    "マム",
+    "ノメ",
+    "アマ",
+    "ミツ",
+    "ナメ",
+    "パバ",
+    "ジヂ",
+    "ズヅ",
 ];
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
@@ -92,10 +198,24 @@ impl Card {
 
 fn build_cards() -> Vec<Card> {
     let mut v = Vec::new();
-    for (set, rows) in [(Set::Basic, BASIC), (Set::Voiced, VOICED), (Set::Combo, COMBO)] {
+    for (set, rows) in [
+        (Set::Basic, BASIC),
+        (Set::Voiced, VOICED),
+        (Set::Combo, COMBO),
+    ] {
         for &(h, k, a) in rows {
-            v.push(Card { kana: h, script: Script::Hira, set, answers: a });
-            v.push(Card { kana: k, script: Script::Kata, set, answers: a });
+            v.push(Card {
+                kana: h,
+                script: Script::Hira,
+                set,
+                answers: a,
+            });
+            v.push(Card {
+                kana: k,
+                script: Script::Kata,
+                set,
+                answers: a,
+            });
         }
     }
     v
@@ -112,16 +232,30 @@ fn paint(code: &str, s: &str) -> String {
         s.to_string()
     }
 }
-fn bold(s: &str) -> String { paint("1", s) }
-fn dim(s: &str) -> String { paint("2", s) }
-fn red(s: &str) -> String { paint("1;31", s) }
-fn green(s: &str) -> String { paint("1;32", s) }
-fn yellow(s: &str) -> String { paint("1;33", s) }
-fn cyan(s: &str) -> String { paint("1;36", s) }
+fn bold(s: &str) -> String {
+    paint("1", s)
+}
+fn dim(s: &str) -> String {
+    paint("2", s)
+}
+fn red(s: &str) -> String {
+    paint("1;31", s)
+}
+fn green(s: &str) -> String {
+    paint("1;32", s)
+}
+fn yellow(s: &str) -> String {
+    paint("1;33", s)
+}
+fn cyan(s: &str) -> String {
+    paint("1;36", s)
+}
 
 /// Terminal display width (kana are double-width).
 fn dw(s: &str) -> usize {
-    s.chars().map(|c| if (c as u32) >= 0x2E80 { 2 } else { 1 }).sum()
+    s.chars()
+        .map(|c| if (c as u32) >= 0x2E80 { 2 } else { 1 })
+        .sum()
 }
 
 fn center(plain: &str, colored: &str, w: usize) -> String {
@@ -155,7 +289,11 @@ struct Stat {
 
 impl Default for Stat {
     fn default() -> Self {
-        Stat { seen: 0, wrong: 0, weight: 1.0 }
+        Stat {
+            seen: 0,
+            wrong: 0,
+            weight: 1.0,
+        }
     }
 }
 
@@ -168,12 +306,21 @@ fn stats_path() -> Option<PathBuf> {
 
 fn load_stats() -> HashMap<String, Stat> {
     let mut m = HashMap::new();
-    let Some(text) = stats_path().and_then(|p| fs::read_to_string(p).ok()) else { return m };
+    let Some(text) = stats_path().and_then(|p| fs::read_to_string(p).ok()) else {
+        return m;
+    };
     for line in text.lines() {
         let f: Vec<&str> = line.split('\t').collect();
         if f.len() == 4 {
             if let (Ok(seen), Ok(wrong), Ok(weight)) = (f[1].parse(), f[2].parse(), f[3].parse()) {
-                m.insert(f[0].to_string(), Stat { seen, wrong, weight });
+                m.insert(
+                    f[0].to_string(),
+                    Stat {
+                        seen,
+                        wrong,
+                        weight,
+                    },
+                );
             }
         }
     }
@@ -187,7 +334,10 @@ fn save_stats(m: &HashMap<String, Stat>) {
     }
     let mut out = String::new();
     for (k, s) in m {
-        out.push_str(&format!("{}\t{}\t{}\t{:.3}\n", k, s.seen, s.wrong, s.weight));
+        out.push_str(&format!(
+            "{}\t{}\t{}\t{:.3}\n",
+            k, s.seen, s.wrong, s.weight
+        ));
     }
     let _ = fs::write(p, out);
 }
@@ -197,7 +347,10 @@ fn save_stats(m: &HashMap<String, Stat>) {
 struct Rng(u64);
 impl Rng {
     fn new() -> Self {
-        let n = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos() as u64).unwrap_or(88172645463325252);
+        let n = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .map(|d| d.as_nanos() as u64)
+            .unwrap_or(88172645463325252);
         Rng(n | 1)
     }
     fn next_f64(&mut self) -> f64 {
@@ -216,7 +369,9 @@ fn lookup<'a>(cards: &'a [Card], script: Script, typed: &str) -> Option<&'a Card
     if typed.is_empty() {
         return None;
     }
-    cards.iter().find(|c| c.script == script && c.accepts(typed))
+    cards
+        .iter()
+        .find(|c| c.script == script && c.accepts(typed))
 }
 
 fn by_kana<'a>(cards: &'a [Card], kana: &str) -> Option<&'a Card> {
@@ -232,10 +387,18 @@ fn diff(a: &str, b: &str) -> (String, String) {
     for i in 0..ac.len().max(bc.len()) {
         let (x, y) = (ac.get(i), bc.get(i));
         if let Some(x) = x {
-            l.push_str(&if Some(x) == y { x.to_string() } else { red(&x.to_string()) });
+            l.push_str(&if Some(x) == y {
+                x.to_string()
+            } else {
+                red(&x.to_string())
+            });
         }
         if let Some(y) = y {
-            r.push_str(&if Some(y) == x { y.to_string() } else { green(&y.to_string()) });
+            r.push_str(&if Some(y) == x {
+                y.to_string()
+            } else {
+                green(&y.to_string())
+            });
         }
     }
     (l, r)
@@ -243,7 +406,14 @@ fn diff(a: &str, b: &str) -> (String, String) {
 
 const BOX_W: usize = 18;
 
-fn kana_box(title: &str, kana: &str, rom_plain: &str, rom_col: &str, kana_col: &str, border: fn(&str) -> String) -> Vec<String> {
+fn kana_box(
+    title: &str,
+    kana: &str,
+    rom_plain: &str,
+    rom_col: &str,
+    kana_col: &str,
+    border: fn(&str) -> String,
+) -> Vec<String> {
     let row = |inner: String| format!("{}{}{}", border("│"), inner, border("│"));
     vec![
         border(&format!("┌{}┐", "─".repeat(BOX_W))),
@@ -283,17 +453,37 @@ fn show_feedback(cards: &[Card], target: &Card, typed: &str) {
     };
     let (_, right_rom_col) = diff(typed, target.primary());
     let left = kana_box(
-        if gave_up { "YOU SKIPPED" } else { "YOU ANSWERED" },
+        if gave_up {
+            "YOU SKIPPED"
+        } else {
+            "YOU ANSWERED"
+        },
         &left_kana,
         &left_rom_plain,
         &left_rom_col,
         &left_kana_col,
         red,
     );
-    let right = kana_box("CORRECT", target.kana, target.primary(), &right_rom_col, &green(target.kana), green);
+    let right = kana_box(
+        "CORRECT",
+        target.kana,
+        target.primary(),
+        &right_rom_col,
+        &green(target.kana),
+        green,
+    );
     println!();
     for (i, (l, r)) in left.iter().zip(right.iter()).enumerate() {
-        println!("   {}   {}   {}", l, if i == 3 { dim(" ≠ ") } else { "   ".to_string() }, r);
+        println!(
+            "   {}   {}   {}",
+            l,
+            if i == 3 {
+                dim(" ≠ ")
+            } else {
+                "   ".to_string()
+            },
+            r
+        );
     }
     println!();
 
@@ -301,18 +491,39 @@ fn show_feedback(cards: &[Card], target: &Card, typed: &str) {
     match typed_card {
         Some(tc) => println!(
             "   {} '{}' is {}, but this card is {} ({}).",
-            red("✗"), typed, bold(tc.kana), bold(target.kana), bold(target.primary())
+            red("✗"),
+            typed,
+            bold(tc.kana),
+            bold(target.kana),
+            bold(target.primary())
         ),
-        None if gave_up => println!("   {} No worries — here is the answer: {} = {}", yellow("↷"), bold(target.kana), bold(target.primary())),
+        None if gave_up => println!(
+            "   {} No worries — here is the answer: {} = {}",
+            yellow("↷"),
+            bold(target.kana),
+            bold(target.primary())
+        ),
         None => println!(
             "   {} '{}' isn't a reading of any {}. Check the spelling: {} = {}",
-            red("✗"), typed,
-            if target.script == Script::Hira { "hiragana" } else { "katakana" },
-            bold(target.kana), bold(target.primary())
+            red("✗"),
+            typed,
+            if target.script == Script::Hira {
+                "hiragana"
+            } else {
+                "katakana"
+            },
+            bold(target.kana),
+            bold(target.primary())
         ),
     }
     if target.answers.len() > 1 {
-        println!("     {}", dim(&format!("also accepted: {}", target.answers[1..].join(", "))));
+        println!(
+            "     {}",
+            dim(&format!(
+                "also accepted: {}",
+                target.answers[1..].join(", ")
+            ))
+        );
     }
 
     // Combo breakdown.
@@ -323,7 +534,12 @@ fn show_feedback(cards: &[Card], target: &Card, typed: &str) {
         let base_rom = by_kana(cards, &base_s).map(|c| c.primary()).unwrap_or("?");
         println!(
             "   {} {} ({}) + small {} ({})  →  {}   {}",
-            cyan("⊕"), bold(&base_s), base_rom, bold(&small.to_string()), small_reading(small), bold(target.primary()),
+            cyan("⊕"),
+            bold(&base_s),
+            base_rom,
+            bold(&small.to_string()),
+            small_reading(small),
+            bold(target.primary()),
             dim("(one blended beat, not two)")
         );
         let split_guess = format!("{}{}", base_rom, small_reading(small));
@@ -336,7 +552,9 @@ fn show_feedback(cards: &[Card], target: &Card, typed: &str) {
     let mut members: Vec<&str> = Vec::new();
     if target.set == Set::Combo {
         let first: String = target.kana.chars().take(1).collect();
-        for c in cards.iter().filter(|c| c.script == target.script && c.set == Set::Combo && c.kana.starts_with(&first)) {
+        for c in cards.iter().filter(|c| {
+            c.script == target.script && c.set == Set::Combo && c.kana.starts_with(&first)
+        }) {
             members.push(c.kana);
         }
         if let Some(b) = by_kana(cards, &first) {
@@ -355,7 +573,11 @@ fn show_feedback(cards: &[Card], target: &Card, typed: &str) {
         }
     }
     if members.len() > 1 {
-        let label = if target.set == Set::Combo { "Family" } else { "Look-alikes" };
+        let label = if target.set == Set::Combo {
+            "Family"
+        } else {
+            "Look-alikes"
+        };
         let mut line = format!("   {} {:<13}", cyan("≈"), label);
         for m in members {
             let rom = by_kana(cards, m).map(|c| c.primary()).unwrap_or("?");
@@ -387,7 +609,12 @@ struct Config {
 fn menu(stats: &HashMap<String, Stat>) -> Option<Config> {
     println!();
     println!("  {}", bold("Which script?"));
-    println!("    {} hiragana   {} katakana   {} both", cyan("1"), cyan("2"), cyan("3"));
+    println!(
+        "    {} hiragana   {} katakana   {} both",
+        cyan("1"),
+        cyan("2"),
+        cyan("3")
+    );
     let scripts = loop {
         match prompt(&format!("  {} ", dim("[3] ›")))?.as_str() {
             "1" | "h" => break vec![Script::Hira],
@@ -407,7 +634,10 @@ fn menu(stats: &HashMap<String, Stat>) -> Option<Config> {
     println!(
         "    {} weak spots only    {}",
         cyan("w"),
-        dim(&format!("({} kana you've missed before, across all sets)", weak_count))
+        dim(&format!(
+            "({} kana you've missed before, across all sets)",
+            weak_count
+        ))
     );
     let (sets, weak_only) = loop {
         let ans = prompt(&format!("  {} ", dim("[all] ›")))?;
@@ -419,13 +649,19 @@ fn menu(stats: &HashMap<String, Stat>) -> Option<Config> {
         }
         if ans == "w" {
             if weak_count == 0 {
-                println!("  {}", yellow("No recorded mistakes yet — play a normal round first."));
+                println!(
+                    "  {}",
+                    yellow("No recorded mistakes yet — play a normal round first.")
+                );
                 continue;
             }
             break (vec![Set::Basic, Set::Voiced, Set::Combo], true);
         }
         let mut v = Vec::new();
-        for t in ans.split(|c: char| !c.is_alphanumeric()).filter(|t| !t.is_empty()) {
+        for t in ans
+            .split(|c: char| !c.is_alphanumeric())
+            .filter(|t| !t.is_empty())
+        {
             match t {
                 "1" => v.push(Set::Basic),
                 "2" => v.push(Set::Voiced),
@@ -442,7 +678,11 @@ fn menu(stats: &HashMap<String, Stat>) -> Option<Config> {
 
     println!();
     let total = loop {
-        let ans = prompt(&format!("  {} {} ", bold("How many questions?"), dim("[30, 0 = endless] ›")))?;
+        let ans = prompt(&format!(
+            "  {} {} ",
+            bold("How many questions?"),
+            dim("[30, 0 = endless] ›")
+        ))?;
         if ans.is_empty() {
             break 30;
         }
@@ -454,17 +694,39 @@ fn menu(stats: &HashMap<String, Stat>) -> Option<Config> {
         }
         println!("  {}", yellow("Enter a number."));
     };
-    Some(Config { scripts, sets, weak_only, total })
+    Some(Config {
+        scripts,
+        sets,
+        weak_only,
+        total,
+    })
 }
 
 struct Miss {
     typed: Vec<String>,
 }
 
-fn pick(active: &[usize], exclude: &[usize], stats: &HashMap<String, Stat>, cards: &[Card], rng: &mut Rng) -> usize {
-    let cand: Vec<usize> = active.iter().copied().filter(|i| !exclude.contains(i)).collect();
-    let cand = if cand.is_empty() { active.to_vec() } else { cand };
-    let w: Vec<f64> = cand.iter().map(|&i| stats.get(cards[i].kana).copied().unwrap_or_default().weight).collect();
+fn pick(
+    active: &[usize],
+    exclude: &[usize],
+    stats: &HashMap<String, Stat>,
+    cards: &[Card],
+    rng: &mut Rng,
+) -> usize {
+    let cand: Vec<usize> = active
+        .iter()
+        .copied()
+        .filter(|i| !exclude.contains(i))
+        .collect();
+    let cand = if cand.is_empty() {
+        active.to_vec()
+    } else {
+        cand
+    };
+    let w: Vec<f64> = cand
+        .iter()
+        .map(|&i| stats.get(cards[i].kana).copied().unwrap_or_default().weight)
+        .collect();
     let mut r = rng.next_f64() * w.iter().sum::<f64>();
     for (k, &wt) in w.iter().enumerate() {
         if r < wt {
@@ -481,7 +743,7 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
         .iter()
         .enumerate()
         .filter(|(_, c)| cfg.scripts.contains(&c.script) && cfg.sets.contains(&c.set))
-        .filter(|(_, c)| !cfg.weak_only || stats.get(c.kana).map_or(false, |s| s.wrong > 0))
+        .filter(|(_, c)| !cfg.weak_only || stats.get(c.kana).is_some_and(|s| s.wrong > 0))
         .map(|(i, _)| i)
         .collect();
     if active.is_empty() {
@@ -493,12 +755,16 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
     let started = Instant::now();
     let mut pending: Vec<(usize, usize)> = Vec::new(); // (due prompt#, card idx)
     let mut misses: HashMap<usize, Miss> = HashMap::new();
-    let (mut asked, mut correct, mut streak, mut best, mut recovered, mut prompts) = (0usize, 0usize, 0usize, 0usize, 0usize, 0usize);
+    let (mut asked, mut correct, mut streak, mut best, mut recovered, mut prompts) =
+        (0usize, 0usize, 0usize, 0usize, 0usize, 0usize);
     let mut last: Option<usize> = None;
     let mut quit = false;
 
     println!();
-    println!("  {}", dim("Type the romaji and press Enter.   ? = show answer   q = finish"));
+    println!(
+        "  {}",
+        dim("Type the romaji and press Enter.   ? = show answer   q = finish")
+    );
 
     loop {
         let (ci, retry) = if let Some(p) = pending.iter().position(|p| p.0 <= prompts) {
@@ -527,7 +793,11 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
             bold(&format!("#{}", asked + 1))
         };
         println!();
-        println!("  ── {} ─────────────── {}", head, dim(&format!("streak {}", streak)));
+        println!(
+            "  ── {} ─────────────── {}",
+            head,
+            dim(&format!("streak {}", streak))
+        );
         println!();
         println!("        {}", bold(card.kana));
         println!();
@@ -548,7 +818,11 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
         if !typed.is_empty() && card.accepts(&typed) {
             if retry {
                 recovered += 1;
-                println!("  {} {}", green("✓ recovered!"), dim("that one is sticking now"));
+                println!(
+                    "  {} {}",
+                    green("✓ recovered!"),
+                    dim("that one is sticking now")
+                );
             } else {
                 correct += 1;
                 streak += 1;
@@ -558,23 +832,41 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
             }
         } else {
             st.wrong += 1;
-            st.weight = if retry { (st.weight + 0.5).min(25.0) } else { (st.weight * 1.8 + 1.0).min(25.0) };
+            st.weight = if retry {
+                (st.weight + 0.5).min(25.0)
+            } else {
+                (st.weight * 1.8 + 1.0).min(25.0)
+            };
             streak = 0;
-            misses.entry(ci).or_insert(Miss { typed: vec![] }).typed.push(typed.clone());
+            misses
+                .entry(ci)
+                .or_insert(Miss { typed: vec![] })
+                .typed
+                .push(typed.clone());
             show_feedback(cards, card, &typed);
             // Lock it in: retype the right answer (Enter to skip).
             loop {
-                match prompt(&format!("  {} ", yellow("type the correct reading to lock it in ›"))) {
+                match prompt(&format!(
+                    "  {} ",
+                    yellow("type the correct reading to lock it in ›")
+                )) {
                     None => {
                         quit = true;
                         break;
                     }
                     Some(a) if a.is_empty() => break,
                     Some(a) if card.accepts(&a) => {
-                        println!("  {}", green("✓ locked in — you'll see this one again soon."));
+                        println!(
+                            "  {}",
+                            green("✓ locked in — you'll see this one again soon.")
+                        );
                         break;
                     }
-                    Some(_) => println!("  {} {}", red("✗"), dim(&format!("it's \"{}\"", card.primary()))),
+                    Some(_) => println!(
+                        "  {} {}",
+                        red("✗"),
+                        dim(&format!("it's \"{}\"", card.primary()))
+                    ),
                 }
             }
             pending.push((prompts + 3, ci));
@@ -590,12 +882,19 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
 
     // ── report ──
     println!();
-    println!("  {}", bold("═══════════════ Session report ═══════════════"));
-    let pct = if asked > 0 { correct * 100 / asked } else { 0 };
+    println!(
+        "  {}",
+        bold("═══════════════ Session report ═══════════════")
+    );
+    let pct = (correct * 100).checked_div(asked).unwrap_or(0);
     let secs = started.elapsed().as_secs();
     println!(
         "  Score: {}   Best streak: {}   Recovered: {}   Time: {}m{:02}s",
-        bold(&format!("{}/{} ({}%)", correct, asked, pct)), best, recovered, secs / 60, secs % 60
+        bold(&format!("{}/{} ({}%)", correct, asked, pct)),
+        best,
+        recovered,
+        secs / 60,
+        secs % 60
     );
     if misses.is_empty() {
         if asked > 0 {
@@ -618,20 +917,36 @@ fn run_session(cards: &[Card], cfg: &Config, stats: &mut HashMap<String, Stat>) 
                 };
                 said.push(s);
             }
-            println!("    {}  ←  {}   {}", pad_right(&plain, &green(&plain), 12), said.join(", "), dim(&format!("×{}", m.typed.len())));
+            println!(
+                "    {}  ←  {}   {}",
+                pad_right(&plain, &green(&plain), 12),
+                said.join(", "),
+                dim(&format!("×{}", m.typed.len()))
+            );
         }
     }
-    let mut weak: Vec<(&String, &Stat)> = stats.iter().filter(|(_, s)| s.wrong > 0 && s.weight > 1.2).collect();
+    let mut weak: Vec<(&String, &Stat)> = stats
+        .iter()
+        .filter(|(_, s)| s.wrong > 0 && s.weight > 1.2)
+        .collect();
     weak.sort_by(|a, b| b.1.weight.partial_cmp(&a.1.weight).unwrap());
     if !weak.is_empty() {
         println!();
         print!("  {} ", bold("Weakest overall:"));
         for (k, s) in weak.iter().take(8) {
             let rom = by_kana(cards, k).map(|c| c.primary()).unwrap_or("?");
-            print!("{} {} {}   ", k, rom, dim(&format!("({}/{} missed)", s.wrong, s.seen)));
+            print!(
+                "{} {} {}   ",
+                k,
+                rom,
+                dim(&format!("({}/{} missed)", s.wrong, s.seen))
+            );
         }
         println!();
-        println!("  {}", dim("Choose \"w\" at the set prompt to drill only these."));
+        println!(
+            "  {}",
+            dim("Choose \"w\" at the set prompt to drill only these.")
+        );
     }
     println!();
     quit
@@ -659,10 +974,12 @@ fn main() {
 
     println!();
     println!("  {}", bold("かな  KANA TRAINER"));
-    println!("  {}", dim("Mistakes are the lesson: what you miss comes back more often."));
+    println!(
+        "  {}",
+        dim("Mistakes are the lesson: what you miss comes back more often.")
+    );
 
-    loop {
-        let Some(cfg) = menu(&stats) else { break };
+    while let Some(cfg) = menu(&stats) {
         if run_session(&cards, &cfg, &mut stats) {
             break;
         }
